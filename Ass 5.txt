@@ -1,0 +1,62 @@
+--1
+select * from customer where cname like 'S%'
+--2
+select * from customer where cname like '%BOSE'
+--3
+select * from parts where unitprice = (select max(unitprice) from parts)
+--4
+select ordno, sum(qord) as total_q from ord_dtls group by ordno
+--5
+select o1.ordno from orders o1, orders o2 where to_char(o1.orddate, 'MON') = to_char(o2.orddate, 'MON') and o1.ordno <> o2.ordno
+--6
+select distinct c.cname, c.address from customer c inner join orders o on c.cno = o.cno inner join ord_dtls od on o.ordno = od.ordno inner join parts p on od.pno = p.pno where p.ptype = 'AP'
+--7
+select distinct c.cname, c.address from customer c inner join orders o on c.cno = o.cno inner join ord_dtls od on o.ordno = od.ordno inner join parts p on od.pno = p.pno where p.pdesc = 'BIKE'
+--8
+select distinct c.cname, c.address from customer c join orders o on c.cno = o.cno where o.orddate = (select min(orddate) from orders)
+--9
+select distinct c.* from customer c join orders o on c.cno = o.cno group by c.cno, c.cname, c.address, c.sno having count(o.ordno) >= 2
+--10
+select * from orders where rownum <= 5
+--11
+select c.* from customer c left join orders o on c.cno = o.cno where o.cno is NULL
+--12
+--select * from parts
+update parts set unitprice = unitprice * 0.98 where pno not in (select pno from ord_dtls)
+--select * from parts
+--13
+select p.pno, p.pdesc, o.orddate from parts p join ord_dtls od on p.pno = od.pno join orders o on od.ordno = o.ordno where to_char(o.orddate, 'MON') = 'MAY'
+--14
+select s.sname, count(distinct c.cno) as num_cus from salesman s join customer c on s.sno = c.sno group by s.sname
+--15
+select s.sname from salesman s join customer c on s.sno = c.sno group by s.sname order by count(distinct c.cno) desc fetch first 1 row only
+--16
+select ordno, sum(qord * unitprice) as total_val from ord_dtls od join parts p on od.pno = p.pno group by ordno
+--17
+select distinct(c.cno), c.cname, c.address from customer c join orders o on c.cno = o.cno where to_char(o.orddate, 'MON') = 'APR' and to_char(o.orddate, 'YYYY') = 2014
+--18
+select * from customer offset 5 rows
+--19
+select pno, pdesc, unitprice from parts order by unitprice desc fetch first 3 rows only
+--20
+select ordno, sum(qord * unitprice) as total_val from ord_dtls od join parts p on od.pno = p.pno group by ordno
+--21
+select c.cname from customer c join orders o on c.cno = o.cno join ord_dtls od on o.ordno = od.ordno join parts p on od.pno = p.pno group by c.cname having sum(p.unitprice * od.qord) = (select max(sum(p.unitprice * od.qord)) from customer c join orders o on c.cno = o.cno inner join ord_dtls od on o.ordno = od.ordno inner join parts p on od.pno = p.pno group by cname)
+--22
+select s.sname, count(distinct c.cno) as no_cus, (s.comm * count(distinct c.cno)) as tot_comm from salesman s left join customer c on s.sno = c.sno group by s.sno, s.sname, s.comm order by tot_comm desc fetch first row only
+--23
+select c.*, s.sname from customer c join salesman s on c.sno = s.sno order by s.sno
+--24
+select p.* from parts p where p.unitprice = (select distinct p.unitprice from parts p order by p.unitprice desc fetch first row only)
+--25
+select p.pdesc, od.qord from parts p join ord_dtls od on p.pno = od.pno order by od.qord desc fetch first row only
+--26
+select ptype, max(unitprice) from parts group by ptype
+--27
+select * from parts order by unitprice desc offset 1 row fetch first row only
+--28
+select pdesc from parts where pno in (select pno from ord_dtls group by pno having count(ordno) > 1)
+--29
+select ordno, to_char(orddate, 'DD/MM/YYYY') as order_date from orders
+--30
+select * from customer offset 5 rows fetch first 3 rows only

@@ -1,0 +1,20 @@
+1--
+create view Managers_View as select * from emp where job = 'MANAGER'
+
+2--
+create view Employee_Details_View as select e.empno, e.ename, e.deptno, d.dname as deptname from emp e join dept d on e.deptno = d.deptno
+
+3--
+create view Non_HOD_CEO_View as select e.empno, e.ename, e.deptno, d.dname as deptname from emp e join dept d on e.deptno = d.deptno where e.job not in ('HOD', 'CEO')
+
+4--
+select view_name from user_views;
+select * from Managers_View
+select * from Employee_Details_View
+select * from Non_HOD_CEO_View
+
+5--
+delete from Employee_Details_View where empno = 7599
+
+6--
+drop view Managers_View

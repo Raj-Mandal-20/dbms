@@ -1,0 +1,261 @@
+--1
+
+DECLARE
+    a NUMBER := 10;
+    b NUMBER := 20;
+    temp NUMBER;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Before Swapping: a = ' || a || ', b = ' || b);
+
+    -- Swapping the values
+    temp := a;
+    a := b;
+    b := temp;
+    
+    DBMS_OUTPUT.PUT_LINE('After Swapping: a = ' || a || ', b = ' || b);
+END;
+/
+
+
+
+Statement processed.
+Before Swapping: a = 10, b = 20
+After Swapping: a = 20, b = 10
+
+
+
+--2
+
+DECLARE
+    num NUMBER := 5;
+BEGIN
+    IF MOD(num, 2) = 0 THEN
+        DBMS_OUTPUT.PUT_LINE(num || ' is Even');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(num || ' is Odd');
+    END IF;
+END;
+/
+
+
+
+Statement processed.
+5 is Odd
+
+
+
+--3
+
+DECLARE
+    num1 NUMBER := 10;
+    num2 NUMBER := 20;
+BEGIN
+    IF num1 > num2 THEN
+        DBMS_OUTPUT.PUT_LINE('The largest number is: ' || num1);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('The largest number is: ' || num2);
+    END IF;
+END;
+/
+
+
+
+Statement processed.
+The largest number is: 20
+
+
+
+--4
+
+DECLARE
+    sub1 NUMBER := 85;
+    sub2 NUMBER := 79;
+    sub3 NUMBER := 92;
+    sub4 NUMBER := 75;
+    sub5 NUMBER := 89;
+    sub6 NUMBER := 84;
+    total NUMBER;
+    average NUMBER;
+    grade CHAR(1);
+BEGIN
+    total := sub1 + sub2 + sub3 + sub4 + sub5 + sub6;
+    average := total / 6;
+    
+    IF average >= 90 THEN
+        grade := 'A';
+    ELSIF average >= 80 THEN
+        grade := 'B';
+    ELSIF average >= 70 THEN
+        grade := 'C';
+    ELSIF average >= 60 THEN
+        grade := 'D';
+    ELSE
+        grade := 'F';
+    END IF;
+    
+    DBMS_OUTPUT.PUT_LINE('Total: ' || total);
+    DBMS_OUTPUT.PUT_LINE('Average: ' || average);
+    DBMS_OUTPUT.PUT_LINE('Grade: ' || grade);
+END;
+/
+
+
+
+Statement processed.
+Total: 504
+Average: 84
+Grade: B
+
+
+
+--5
+
+DECLARE
+    num NUMBER := 1234;
+    sum_digits NUMBER := 0;
+    digit NUMBER;
+BEGIN
+    WHILE num > 0 LOOP
+        digit := MOD(num, 10);
+        sum_digits := sum_digits + digit;
+        num := TRUNC(num / 10);
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('Sum of digits: ' || sum_digits);
+END;
+/
+
+
+
+Statement processed.
+Sum of digits: 10
+
+
+
+--6
+
+DECLARE
+    num NUMBER := 1234;
+    reverse_num NUMBER := 0;
+    digit NUMBER;
+BEGIN
+    WHILE num > 0 LOOP
+        digit := MOD(num, 10);
+        reverse_num := reverse_num * 10 + digit;
+        num := TRUNC(num / 10);
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('Reversed number: ' || reverse_num);
+END;
+/
+
+
+
+Statement processed.
+Reversed number: 4321
+
+
+
+--7
+
+DECLARE
+    num NUMBER := 29;
+    is_prime BOOLEAN := TRUE;
+BEGIN
+    IF num <= 1 THEN
+        is_prime := FALSE;
+    ELSE
+        FOR i IN 2..TRUNC(SQRT(num)) LOOP
+            IF MOD(num, i) = 0 THEN
+                is_prime := FALSE;
+                EXIT;
+            END IF;
+        END LOOP;
+    END IF;
+    
+    IF is_prime THEN
+        DBMS_OUTPUT.PUT_LINE(num || ' is a prime number');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(num || ' is not a prime number');
+    END IF;
+END;
+/
+
+
+
+Statement processed.
+29 is a prime number
+
+
+
+--8
+
+DECLARE
+    num NUMBER := 5;
+    factorial NUMBER := 1;
+BEGIN
+    FOR i IN 1..num LOOP
+        factorial := factorial * i;
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('Factorial of ' || num || ' is ' || factorial);
+END;
+/
+
+
+
+Statement processed.
+Factorial of 5 is 120
+
+
+
+--9
+
+DECLARE
+    str VARCHAR2(50) := 'MADAM';
+    reversed_str VARCHAR2(50) := '';
+BEGIN
+    FOR i IN REVERSE 1..LENGTH(str) LOOP
+        reversed_str := reversed_str || SUBSTR(str, i, 1);
+    END LOOP;
+    
+    IF str = reversed_str THEN
+        DBMS_OUTPUT.PUT_LINE(str || ' is a palindrome');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(str || ' is not a palindrome');
+    END IF;
+END;
+/
+
+
+
+Statement processed.
+MADAM is a palindrome
+
+
+
+--10
+
+Create the areas table
+CREATE TABLE areas (
+    radius NUMBER,
+    area NUMBER
+);
+
+-- PL/SQL block to calculate and store areas
+DECLARE
+    radius NUMBER;
+    area NUMBER;
+BEGIN
+    FOR radius IN 3..7 LOOP
+        area := 3.14159 * radius * radius;
+        INSERT INTO areas (radius, area) VALUES (radius, area);
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('Areas calculated and stored in the table');
+END;
+/
+
+
+Statement processed.
+Areas calculated and stored in the table
